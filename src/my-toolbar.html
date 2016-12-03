@@ -70,9 +70,11 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                     value: false
                 }
             },
+
             computeLockIcon: function(signedIn) {
                 return signedIn ? 'lock-open' : 'lock';
             },
+
             lock: function() {
                 this.fire('sign-out');
             }

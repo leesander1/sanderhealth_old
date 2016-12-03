@@ -8,6 +8,8 @@ Code distributed by Google as part of the polymer project is also
 subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
 -->
 <link rel="import" href="../bower_components/app-storage/app-network-status-behavior.html">
+<link rel="import" href="../bower_components/polymerfire/firebase-app.html">
+<link rel="import" href="../bower_components/polymerfire/polymerfire.html">
 <script>
     (function() {
         'use strict';
@@ -77,6 +79,11 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                 }
                 return Promise.resolve();
             },
+
+            signIn: function() {
+                this.$.auth.signInWithRedirect();
+            },
+
             signOut: function() {
                 if (this.$.auth) {
                     this.$.auth.signOut();
