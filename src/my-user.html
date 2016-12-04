@@ -1,0 +1,195 @@
+<link rel="import" href="../bower_components/polymer/polymer.html">
+<link rel="import" href="shared-styles.html">
+<link rel="import" href="../bower_components/iron-form/iron-form.html">
+<link rel="import" href="../bower_components/paper-spinner/paper-spinner.html">
+<link rel="import" href="../bower_components/paper-item/paper-item.html">
+<link rel="import" href="../bower_components/paper-input/paper-textarea.html">
+<link rel="import" href="../bower_components/paper-button/paper-button.html">
+<link rel="import" href="../bower_components/paper-card/paper-card.html">
+<link rel="import" href="../bower_components/iron-ajax/iron-ajax.html">
+<link rel="import" href="../bower_components/paper-dropdown-menu/paper-dropdown-menu.html">
+<link rel="import" href="../bower_components/country-select/country-select.html">
+<link rel="import" href="../bower_components/gold-password-input/gold-password-input.html">
+<link rel="import" href="../bower_components/gold-email-input/gold-email-input.html">
+<link rel="import" href="../bower_components/gold-zip-input/gold-zip-input.html">
+<link rel="import" href="../bower_components/gold-phone-input/gold-phone-input.html">
+<link rel="import" href="../bower_components/iron-ajax/iron-ajax.html">
+<link rel="import" href="../bower_components/paper-typeahead-input/paper-typeahead-input.html">
+<link rel="import" href="../bower_components/vaadin-date-picker/vaadin-date-picker.html">
+
+<dom-module id="my-user">
+    <template>
+        <style>
+            paper-material {
+                max-width: 800px;
+                padding:40px;
+                background-color: #FAFAFA;
+                margin: auto;
+            }
+
+            paper-dropdown-menu {
+                width: 100%;
+            }
+
+            paper-button {
+                background-color: var(--app-secondary-color);
+                color: #FAFAFA;
+                margin-bottom: 40px;
+            }
+
+            .button {
+                margin: auto;
+                width: 85.5px;
+                align-content: center;
+            }
+
+            h2 {
+                color: #757575;
+            }
+
+        </style>
+            <form is="iron-form" method="post"  action="/" id="formUser">
+                <paper-material name="User Info" id="userInfo">
+                    <h2>Account Info</h2>
+                    <paper-input error-message="{{error_username}}" name="username" label="Username" required></paper-input>
+                    <gold-password-input name="password" label="Password" reveal suffix required strength-meter></gold-password-input>
+                    <gold-password-input char-counter error-message="{{error_confirm_password}}" reveal suffix label="Confirm Password" maxlength="25" required type="password" name="cfmpassword"></gold-password-input>
+                </paper-material><br/>
+
+                <paper-material>
+                    <h2>User Info</h2>
+                    <paper-input name="first" label="First Name" ></paper-input>
+                    <paper-input name="middle" label="Middle Name" ></paper-input>
+                    <paper-input name="last" label="Last Name" ></paper-input>
+                    <gold-email-input name="email" error-message="{{error_email}}" label="Email Address" required></gold-email-input>
+                    <gold-phone-input name="phone" label="Phone Number"></gold-phone-input>
+                    <paper-input name="age" label="Age" type="number"></paper-input>
+                    <vaadin-date-picker name="dob" label="Date of Birth"></vaadin-date-picker>
+                </paper-material><br/>
+
+                <paper-material>
+                    <h2>Address</h2>
+                    <paper-input name="street" label="Street" ></paper-input>
+                    <paper-input name="city" label="City" ></paper-input>
+                    <gold-zip-input name="zip" label="Zip Code"></gold-zip-input>
+                    <paper-typeahead-input placeholder="State" local-candidates="{{states}}" max-suggestions="4">
+                    </paper-typeahead-input>
+                    <paper-typeahead-input placeholder="Country" local-candidates="{{countries}}" max-suggestions="4">
+                    </paper-typeahead-input>
+                </paper-material><br/>
+                <paper-material>
+                    <paper-textarea name="bio" label="Bio" ></paper-textarea>
+                </paper-material><br>
+                <div class="button">
+                    <paper-button raised on-tap="_submit">Submit</paper-button>
+                </div>
+
+
+                <div class="output"></div>
+            </form>
+    </template>
+    <script>
+
+        Polymer({
+
+            is: 'my-user',
+
+            properties: {
+                prop1: {
+                    type: String,
+                    value: 'leesander.com',
+                },
+
+                states: {
+                    type: Array,
+                    value: ['AK', 'AL', 'AR', 'AZ', 'CA', 'CO', 'CT',
+                        'DC', 'DE', 'FL', 'GA', 'HI', 'IA', 'ID',
+                        'IL', 'IN', 'KS', 'KY', 'LA', 'MA', 'MD',
+                        'ME', 'MI', 'MN', 'MO', 'MS', 'MT', 'NC',
+                        'ND', 'NE', 'NH', 'NJ', 'NM', 'NV', 'NY',
+                        'OH', 'OK', 'OR', 'PA', 'RI', 'SC', 'SD',
+                        'TN', 'TX', 'UT', 'VA', 'VT', 'WA', 'WI',
+                        'WV', 'WY', 'N/A']
+                },
+
+                countries: {
+                    type: Array,
+                    value: ['USA','CA','UK','n/a']
+                },
+
+                error_username: {
+                    type: String,
+                    value:"Username Is Invalid!"
+                },
+
+                error_password: {
+                    type: String,
+                    value:"Password is not valid!"
+                },
+
+                error_confirm_password: {
+                    type: String,
+                    value:"Passwords do not match!"
+                },
+
+                error_email: {
+                    type: String,
+                    value:"Email is not valid!"
+                },
+
+            },
+
+            // Element Lifecycle
+            ready: function() {
+                //inputLocal.source= this.states;
+
+            },
+
+            attached: function() {
+                // `attached` fires once the element and its parents have been inserted
+                // into a document.
+                //
+                // This is a good place to perform any work related to your element's
+                // visual state or active behavior (measuring sizes, beginning animations,
+                // loading resources, etc).
+            },
+
+            detached: function() {
+                // The analog to `attached`, `detached` fires when the element has been
+                // removed from a document.
+                //
+                // Use this to clean up anything you did in `attached`.
+            },
+
+            listeners: {
+                'formUser.iron-form-response': '_formResponse',
+                'formUser.iron-form-submit': '_formSubmit',
+                'formUser.iron-form-presubmit': '_formPresubmit',
+                'formUser.iron-form-error': '_formError',
+            },
+
+            _submit(event) {
+                Polymer.dom(event).localTarget.parentElement.parentElement.submit();
+            },
+
+
+            _formSubmit: function(event) {
+                console.log("Form was submitted");
+            },
+
+            _formPresubmit: function(event) {
+                console.log("Form is about to be submitted");
+                this.querySelector('.output').innerHTML = JSON.stringify(event.detail);
+            },
+
+            _formResponse: function(event) {
+                console.log('There was a response');
+            },
+
+            _formError: function(event) {
+                console.log('Form Error, no actual response');
+            }
+
+        });
+    </script>
+</dom-module>
